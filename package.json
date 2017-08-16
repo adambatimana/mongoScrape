@@ -1,0 +1,33 @@
+{
+  "name": "mongoscrape",
+  "version": "1.0.0",
+  "description": "scrape homework",
+  "main": "server.js",
+  "scripts": {
+    "test": "none",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adambatimana/mongoScrape.git"
+  },
+  "keywords": [
+    "mongo",
+    "mongoose",
+    "webscrape"
+  ],
+  "author": "adam batimana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adambatimana/mongoScrape/issues"
+  },
+  "homepage": "https://github.com/adambatimana/mongoScrape#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.11.7",
+    "request": "^2.81.0"
+  }
+}
