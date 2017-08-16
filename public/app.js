@@ -6,13 +6,13 @@ $.getJSON("/articles", function(data){
 });
 
 //ON CLICK P TAG
-$(document).("click", "p", function(){
+$(document).on("click", "p", function(){
       $("#notes").empty();
 
       let thisId = $(this).attr("data-id");
 
       $.ajax({
-            method:GET,
+            method:"GET",
             url: "/articles/" + thisId
       }).done(function(data){
                 console.log(data);

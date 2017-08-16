@@ -21,9 +21,9 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
     extended:false
 }));
+app.use(express.static("public"));
 
 //database config with mongoose
-
 mongoose.connect("mongodb://localhost/webscrape");
 let db = mongoose.connection;
 //errors
@@ -104,7 +104,7 @@ app.post("/articles/:id", function(req,res){
                 console.log(error);
             } else {
                 Article.findOneAndUpdate({"_id" : req.params.id}, {"note" : doc._id})
-                .execute(function(err,doc){
+                .exec(function(err,doc){
                       if (err) {
                         console.log(err);
                       } else {
