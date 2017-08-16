@@ -5,7 +5,8 @@ let mongoose = require("mongoose");
 let logger = require("morgan");
 
  //require articles
-
+ var Note = require("./models/Note.js");
+ var Article = require("./models/Article.js");
  //scraping tools
  let request = require("request");
  let cheerio = require("cheerio");
@@ -41,10 +42,10 @@ db.once("open", function(){
 
 
 app.get("/scrape", function(req,res){
-      request("http://www. .com/", function(error,response,html){
+      request("http://www.echojs.com/", function(error,response,html){
             let $ = cheerio.load(html);
                 //grab h2 in artcile tags and save them as prop of result object
-                $("").each(function(i,element){
+                $("article h2").each(function(i,element){
                       let result = {};
                       result.title = $(this).children("a").text();
                       result.link = $(this).children("a").attr("href");
@@ -76,6 +77,24 @@ app.get("/articles", function(req,res){
       });//end find
 });//end app.get
 
+app.get("/articles/:id", function(req, res) {
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  Article.findOne({ "_id": req.params.id })
+  // ..and populate all of the notes associated with it
+  .populate("note")
+  // now, execute our query
+  .exec(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise, send the doc to the browser as a json object
+    else {
+      res.json(doc);
+    }
+  });
+});
+
 //create a new note or replace existing once
 app.post("/articles/:id", function(req,res){
       let newNote = new Note(req.body);
@@ -98,8 +117,6 @@ app.post("/articles/:id", function(req,res){
 });//end post
 
 //listen on port
-app.listen(8000, => console.log("APP RUNNING ON PORT 8000!"));
-
-// app.listen(3000, function() {
-//   console.log("App running on port 3000!");
-// });
+app.listen(8000, function() {
+  console.log("App running on port 8000!");
+});
