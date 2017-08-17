@@ -44,7 +44,6 @@ db.once("open", function() {
 app.get("/scrape", function(req, res) {
     request("http://www.echojs.com/", function(error, response, html) {
         let $ = cheerio.load(html);
-        //grab h2 in artcile tags and save them as prop of result object
         $("article h2").each(function(i, element) {
             let result = {};
             result.title = $(this).children("a").text();
@@ -77,18 +76,12 @@ app.get("/articles", function(req, res) {
 }); //end app.get
 
 app.get("/articles/:id", function(req, res) {
-    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     Article.findOne({ "_id": req.params.id })
-        // ..and populate all of the notes associated with it
         .populate("note")
-        // now, execute our query
         .exec(function(error, doc) {
-            // Log any errors
             if (error) {
                 console.log(error);
-            }
-            // Otherwise, send the doc to the browser as a json object
-            else {
+            } else {
                 res.json(doc);
             }
         });
@@ -118,7 +111,8 @@ app.post("/articles/:id", function(req, res) {
 
 //delete notes
 
-//delete articles
+
+//post notes to DOM
 
 
 //listen on port
