@@ -1,12 +1,23 @@
 //grab articles as json
 $.getJSON("/articles", function(data){
       for (var i = 0; i < data.length; i++) {
-            $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+            let newDiv = $("<div>");
+            let p = $("<p>");
+            newDiv.attr("data-id", data[i]._id);
+            let h2 = $("<h2>")
+            h2.addClass("card-title");
+            h2.text(data[i].title)
+            let html = data[i].link;
+            p.text(html)
+            newDiv.append(h2, p)
+
+            $("#articles").append(newDiv);
+            // "<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>"
       }
 });
 
 //ON CLICK P TAG
-$(document).on("click", "p", function(){
+$(document).on("click", "div", function(){
       $("#notes").empty();
 
       let thisId = $(this).attr("data-id");
