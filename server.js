@@ -116,6 +116,12 @@ app.post("/articles/:id", function(req,res){
       });//end newNote.save
 });//end post
 
+
+//delete notes
+
+//delete articles
+
+
 //listen on port
 app.listen(8000, function() {
   console.log("App running on port 8000!");
