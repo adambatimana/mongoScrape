@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //database config with mongoose
-mongoose.connect("mongodb://localhost/webscrape");
+mongoose.connect("mongodb://localhost/scrape");
 let db = mongoose.connection;
 //errors
 db.on("error", function(error){
@@ -42,10 +42,10 @@ db.once("open", function(){
 
 
 app.get("/scrape", function(req,res){
-      request("http://www.echojs.com/", function(error,response,html){
+      request("https://blog.us.playstation.com/", function(error,response,html){
             let $ = cheerio.load(html);
                 //grab h2 in artcile tags and save them as prop of result object
-                $("article h2").each(function(i,element){
+                $(".post h1").each(function(i,element){
                       let result = {};
                       result.title = $(this).children("a").text();
                       result.link = $(this).children("a").attr("href");
