@@ -118,9 +118,30 @@ app.post("/articles/:id", function(req,res){
 
 
 //delete notes
+app.delete("/notes/:id",function(req,res){
+  // db.getCollection('notes').find({})
+    let id = req.params.id;
+    Note.remove({
+      _id: id
+    }, function(err){
+        if (err) {
+          console.log(err)
+        }else{
+          return res.send("REMOVED")
+        }
+    })
+})
 
-//delete articles
-
+//put notes on DOM
+app.get("/notes", function(req,res){
+      Note.find({},function(error,doc){
+            if (error) {
+                console.log(error);
+            } else {
+                res.json(doc);
+            }//end ifelse
+      });//end find
+});
 
 //listen on port
 app.listen(8000, function() {

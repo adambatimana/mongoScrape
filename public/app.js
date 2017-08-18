@@ -47,9 +47,10 @@ $(document).on("click", "#artDiv", function(){
       });//end .done
 });//end document
 
-
-//when click saveNOTE button
-$(document).on("click", "savenote", function(){
+// ==============================================
+//               SAVE
+// ==============================================
+$(document).on("click", "#savenote", function(){
       let thisId= $(this).attr("data-id");
 
       $.ajax({
@@ -67,3 +68,21 @@ $(document).on("click", "savenote", function(){
       $("#titleinput").val("");
       $("#bodyinput").val("");
 });
+// ==============================================
+//               DELETE
+// ==============================================
+
+// $(document).on("click","#deletenote", function(){
+//     let deleteId = $(this).attr("data-id");
+//
+//     $.ajax({
+//       method:"POST",
+//       url: "/articles/" + deleteId,
+//       data: {
+//         title: $("#titleinput").val(),
+//         body: $("#bodyinput").val()
+//       }
+//     }).done(function(data){
+//       console.log(data);
+//     })
+// })
