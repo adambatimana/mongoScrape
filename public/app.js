@@ -1,22 +1,37 @@
 //grab articles as json
 $.getJSON("/articles", function(data){
       for (var i = 0; i < data.length; i++) {
+            // console.log(data);
             let newDiv = $("<div>");
-            let p = $("<p>");
+            let a = $("<a>");
             newDiv.attr("data-id", data[i]._id);
             newDiv.attr("id", "artDiv" );
-            let h2 = $("<h2>")
+            let h2 = $("<h3>")
             h2.addClass("card-title");
             h2.text(data[i].title)
             let html = data[i].link;
-            p.text(html)
-            newDiv.append(h2, p)
+            a.text(html)
+            a.attr("href", data[i].link)
+            newDiv.append(h2, a)
 
             $("#articles").append(newDiv);
             // "<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>"
       }
 });
 
+// $.getJSON("/notes", function(data){
+//     for (var i = 0; i < data.length; i++) {
+//           console.log(data);
+//           let card = $("<div>").addClass("card").attr("data-id", data[i]._id);
+//           let h3 = $("<h3>");
+//           h3.addClass("card-title");
+//           h3.text(data[i].title);
+//           let p = $("<p>");
+//           p.text(data[i].body);
+//
+//           $("#articles").append(card);
+//       }
+// })
 //ON CLICK P TAG
 $(document).on("click", "#artDiv", function(){
       $("#notes").empty();
@@ -29,7 +44,7 @@ $(document).on("click", "#artDiv", function(){
       }).done(function(data){
                 console.log(data);
                 // The title of the article
-                $("#notes").append("<h4>" + data.title + "</h4>");
+                $("#notes").append("<h5>" + data.title + "</h5>");
                 // An input to enter a new title
                 $("#notes").append("<input id='titleinput' name='title' >");
                 // A textarea to add a new note body
@@ -61,7 +76,32 @@ $(document).on("click", "#savenote", function(){
               body: $("#bodyinput").val()
             }
       }).done(function(data){
-            console.log(data);
+
+        // ==============================================
+        //   TRYING TO DISPLAY COMMENTS ON THE PAGE
+        // ==============================================
+                  console.log(data);
+                  $.ajax({
+                    method:"GET",
+                    url:"/notes/" + thisId,
+                    data: {
+                            title: $("#titleinput").val(),
+                            body: $("#bodyinput").val()
+                          }
+                  }).done(function(data){
+                    // The title of the article
+                    $("#articles").append("<h5>" + data.title + "</h5>");
+                    // An input to enter a new title
+                    $("#articles").append("<p>" + data.body+ "</p>");
+
+                    if (data.note) {
+                          // Place the title of the note in the title input
+                          $("#titleinput").val(data.note.title);
+                          // Place the body of the note in the body textarea
+                          $("#bodyinput").val(data.note.body);
+                    }
+                  });
+
             $("#notes").empty();
       });
 
